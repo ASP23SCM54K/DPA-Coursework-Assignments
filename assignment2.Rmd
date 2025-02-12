@@ -1,0 +1,440 @@
+---
+title: "DPA Assignment 2"
+author: "Aditya Kundeti"
+date: "2023-09-23"
+output:
+  word_document: default
+  html_document: default
+---
+
+1 Recitation Exercises
+
+4.
+(a) Looking at the data, it seems like each data point has an equal chance of happening, kind of like rolling a fair 10-sided die. For instance, if we wanted to predict a value around 0.6, we'd be considering a range from 0.55 to 0.65, which covers 10 different values. If we apply this idea to the whole range, which has a total of 100 possible values, on average, we're using about 10% of the entire range to predict any single point. So, you could say we're using roughly 10% of the total possibilities when we predict something.
+
+(b) Building on what we just talked about, let's say we have two sets of data, X1 and X2, and they're both evenly spread out between 0 and 1, like two sets of 100 random numbers each. If we add those up, we get 200 observations in total. Now, if we think about all the possible observations we could have in the [0, 1] range, that's like having 10,000 possibilities. So, when we use both X1 and X2 to make predictions, we're actually only using 1% of all the potential observations out there. It's a bit like having a giant jar of marbles with all kinds of colors, but we're only looking at a tiny fraction of them when we make predictions using X1 and X2.
+
+(c) 
+$$
+(\frac{10}{100})^{n}
+$$
+Number of features or n is equal to 100 we can write it as $$(\frac{10}{100})^{100}$$
+
+(d) As we add more features or dimensions (referred to as 'n' or 'p'), we have less data available for making accurate predictions. This reduction in available data happens quite rapidly as the number of features increases, making it more challenging to make reliable predictions. Therefore, when dealing with a large number of features, using the K-Nearest Neighbors (KNN) method may not be a dependable approach for achieving accurate predictions.
+
+(e) When we set 'p' to 1, the side length is calculated as 0.1 raised to the power of 1, resulting in a length of 0.1. If 'p' is set to 2, the length is determined by taking the square root of 0.1, which is approximately 0.316. For 'p' equal to 100, the length is found by raising 0.1 to the power of 1/100, resulting in a length of approximately 0.977. It's important to note that as the value of 'p' increases, the side length moves closer to 1. This indicates that with higher 'p' values, the data points tend to cluster more toward the edges or boundaries of the hypercube.
+
+6.
+(a) According to the logistic regression formula, the probability value is 0.38.
+
+(b) Using the provided values, the result is 50 hours.
+
+7. The probability is 0.752, which is equivalent to 75.2%.
+
+9. 
+(a) $$odds  = \frac{P(x)}{1-P(x)}$$
+$$0.37  = \frac{P(x)}{1-P(x)}$$
+on rearranging 
+
+$$0.37 - 0.37P(x) = P(x)$$
+This is equal to 
+
+
+$$P(x) = \frac{0.37}{1.37} = 0.27$$
+(b) By substituting the expression from above, we obtain the following result:  $$odds  = \frac{P(x)}{1-P(x)}$$
+
+we get $$odds  = \frac{0.16}{1-0.16} = 0.19 $$
+ 19%.
+
+1.2 Chapter 5
+
+2
+(a) Let's consider our total number of observations as 'n'. During bootstrap calculations, each observation has an equal chance of being selected. So, the probability that the 'jth' observation from the original sample becomes the first observation in the bootstrap sample is 1 divided by 'n'. Conversely, the probability that the 'jth' observation from the original sample isn't the first observation in the bootstrap sample is 1 minus 1 divided by 'n'.
+
+(b) Every observation in our dataset has an equal likelihood of being included in the bootstrap calculation. When we're dealing with the initial sample, the probability of the second bootstrap observation being the same as the 'jth' observation is 1 divided by 'n'. Conversely, there's a chance of 1 minus 1 divided by 'n' that the second bootstrap observation won't match the 'jth' observation from the initial sample.
+
+(c) In the scenario where the 'jth' observation is left out of the bootstrap sample, we can break it down into individual events:
+
+The probability that the first bootstrap sample doesn't contain the 'jth' observation is (1 - 1/n).
+Similarly, the probability that the second bootstrap sample also excludes the 'jth' observation is (1 - 1/n), and this continues for each bootstrap sample up to the 'nth' one.
+To find the overall probability, we multiply these individual probabilities together: (1 - 1/n) * (1 - 1/n) * ... * (1 - 1/n), repeating this 'n' times. This can be expressed as (1 - 1/n)^n.
+
+(d) The probability of the jth observation in bootstrap is $$(\frac{1}{n})^{5}$$
+
+(e) The probability of the jth observation is in bootstrap is $$(\frac{1}{n})^{100}$$
+
+(f) The probability of the jth observation is in bootstrap is $$(\frac{1}{n})^{10000}$$
+
+(g) 
+```{r}
+n <-seq(1,100000)
+plot(n,1-(1-1/n)^n)
+```
+
+(h) 
+```{r}
+b <- rep(NA, 10000)
+for (i in 1:10000)
+{
+  b[i] <- sum(sample(1:100, rep = TRUE) == 4)>0
+}
+mean(b)
+```
+
+3.
+(a) K-fold cross-validation is a technique employed in machine learning to effectively train and assess models without using the entire dataset all at once. Here's a simplified breakdown of how it operates:
+
+  1.Data Division: Instead of employing the entire dataset for training and testing, we divide it into segments.
+
+  2.Cross-Validation Steps: There are two primary phases:
+
+   - Data Splitting: We partition our data into smaller groups known as "folds."
+   
+   - Training and Validation: These folds are employed sequentially. Most of them are used for training the model, while one is held back for validation.
+   
+  3. Number of Folds: The selection of the fold count determines the specific type of cross-validation. For example, if we have 4 folds, it's referred to as four-fold cross-validation.
+
+Here's a more detailed sequence of steps:
+
+   - Determine the desired number of folds (e.g., 4).
+   
+   - Divide your dataset into these k blocks or folds.
+   
+   - During each iteration:
+
+     - Choose k-1 folds as the training dataset.
+     - Reserve one fold for testing.
+     - Evaluate the model's performance on the testing set for each iteration and record the results.
+   
+   - Repeat this process k times, with each fold serving as the testing data once.
+   
+   - Finally, summarize the outcomes from all iterations to assess the model's overall performance.
+
+In simple terms, K-fold cross-validation ensures that we comprehensively train and evaluate our model on different portions of the dataset, providing a more robust assessment of how well it will generalize to new, unseen data.
+
+(b) 
+i.
+Advantages:
+
+Ease of Implementation: It's straightforward to implement.
+Error Estimation: Provides an estimate of the error rate by reserving a portion of the data during model training.
+Simplicity: Easy to understand and use.
+
+Disadvantages:
+
+Reduced Performance with Fewer Data: When dealing with a limited number of training observations, the model's performance may suffer, potentially leading to an overestimation of the test error rate.
+Variable Estimation: The estimation of the test error can vary considerably based on the specific observations chosen for the training and testing sets.
+
+ii.
+Advantages of Leave-One-Out Cross-Validation (LOOCV):
+
+Reducing Bias: LOOCV helps reduce bias by considering each observation once for validation, using the rest (n-1 observations) for training. This comprehensive data utilization minimizes the risk of bias and randomness.
+Consistent Test Error: When applied to the entire dataset, LOOCV provides a consistent estimate of the test error.
+Versatility: LOOCV can be applied to various types of models, including logistic regression, Linear Discriminant Analysis (LDA), and Quadratic Discriminant Analysis (QDA).
+
+Disadvantages of LOOCV:
+
+Higher Variance: Compared to k-fold cross-validation, LOOCV tends to have higher variance.
+Computationally Demanding: LOOCV requires more computational resources, making it computationally expensive.
+Time-Consuming: If the dataset is large (i.e., if 'n' is a large number), the LOOCV process can be time-consuming.
+
+
+2 Practicum Problems
+
+2.1 Problem 1
+
+```{r}
+library(readr)
+library(data.table)
+library(caret)
+library(corrplot)
+library(ROCR)
+```
+
+```{r}
+abaloneLink="https://archive.ics.uci.edu/ml/machine-learning-databases/abalone/abalone.data"
+Inform=fread(abaloneLink , header=FALSE)
+name=c("Sex", "Length", "Diameter", "Height", "WholeWeight", "ShuckedWeight", "VisceraWeight", "ShellWeight","Rings")
+colnames(Inform) = name
+summary(Inform) 
+```
+
+```{r}
+nrow(Inform)
+
+ncol(Inform)
+
+unique(Inform$Sex)
+
+```
+
+```{r}
+removeclass=which(Inform$Sex!='I')
+Inform2<-Inform[removeclass]
+Inform2$Sex<-factor(Inform2$Sex)
+str(Inform2)
+
+
+split<-createDataPartition(Inform2$Sex, p=0.8,list=FALSE)
+train=Inform2[split,]
+test=Inform2[-split,]
+glm_model<-glm(Sex~.,family=binomial,data=train)
+summary(glm_model)
+```
+
+
+
+In the logistic regression model, we find that the intercept term is highly statistically significant (p < 0.001), which indicates that the model has a meaningful baseline prediction. Among the predictor variables, only "ShuckedWeight" stands out as statistically significant (p = 0.00907), indicating its crucial role in predicting the binary outcome "Sex." In other words, changes in "ShuckedWeight" significantly affect the prediction of gender.
+
+Conversely, variables such as "Length," "Diameter," "Height," "WholeWeight," "VisceraWeight," "ShellWeight," and "Rings" do not have statistically significant coefficients (p-values > 0.05). This lack of significance suggests that these variables may not contribute significantly to the prediction of "Sex." Essentially, their influence on the outcome "Sex" cannot be distinguished from zero, implying that they may not be relevant for this specific prediction task.
+
+------------------------------------------------------------------------
+
+The significance of the "Intercept" term (p < 0.001) signifies the inclusion of a non-zero intercept in the model.
+
+Regarding the predictor variables, only "ShuckedWeight" exhibits a statistically significant coefficient (p = 0.00907). Conversely, predictors such as "Length," "Diameter," "Height," "WholeWeight," "VisceraWeight," "ShellWeight," and "Rings" lack statistically significant coefficients, as their p-values surpass 0.05. Essentially, "ShuckedWeight" is the sole predictor that demonstrates statistical significance in predicting the binary outcome "Sex." In the case of "ShuckedWeight," the null hypothesis implies that its coefficient is equal to zero. Nevertheless, the small p-value suggests that we can reject this null hypothesis. Conversely, the null hypothesis remains valid for all other predictor variables except for "ShuckedWeight."
+
+```{r}
+coef(glm_model)
+
+confint(glm_model)
+```
+
+
+
+Except for "Shucked_weight," all the other predictors have confidence intervals that encompass the value 0. This implies that there is not a substantial relationship between these predictors and the response variable, as indicated by the p-value for the "Shucked_weight" variable. In summary, we can conclude that there is no robust association between the predictors and the response variable, except for "Shucked_weight." Consequently, we can affirm that the null hypothesis holds true for all the other predictor variables, with the exception of "Shucked_weight."
+
+```{r}
+probability<- predict(glm_model,test,type="response")
+op=ifelse(probability>0.5,"M","F")
+op1=factor(op)
+confusionMatrix(op1, test$Sex)
+
+```
+The model achieves an accuracy rate of 56.01%.
+
+```{r}
+pred=prediction(probability,test$Sex)
+perform= performance(pred,measure="tpr",x.measure="fpr")
+plot(perform)
+abline(0,1)
+
+```
+
+
+
+Utilizing the corrplot to determine the area under the curve.
+
+```{r}
+aucperform = performance(pred,measure = "auc")
+aucperform@y.values
+
+rel = cor(Inform2[,-1])
+corrplot(rel, method="number")
+
+```
+
+Observing the chart, we can see that there is a consistent positive linear relationship across all predictors. More precisely, the "Rings" predictor demonstrates a mild positive correlation, whereas the remaining predictors display a robust and evident upward relationship.
+
+2.2 Problem 2
+
+```{r}
+library(e1071)
+library(data.table)
+Mushroom_Link= "https://archive.ics.uci.edu/ml/machine-learning-databases/mushroom/agaricus-lepiota.data"
+Mushroom_Inform = fread(Mushroom_Link,header=FALSE)
+
+```
+
+
+```{r}
+mushroom_data = c("Class","cap-shape","cap-surface","cap-color","bruises","odor","gillattachment","gill-spacing","gill-size","gill-color","stalk-shape","stalk-root","stalksurface-above-ring","stalk-surface-below-ring","stalk-color-above-ring","stalk-colorbelow-ring","veil-type","veil-color","ring-number","ring-type","spore-printcolor","population","habitat")
+colnames(Mushroom_Inform)=mushroom_data
+
+summary(Mushroom_Inform)
+
+nrow(Mushroom_Inform)
+
+ncol(Mushroom_Inform)
+
+str(Mushroom_Inform)
+
+cat("missing values= ",sum(Mushroom_Inform=="?"))
+
+```
+
+We've observed that there are 2480 missing values within the dataset. To get the data ready for constructing a Naive Bayes classifier, we must first perform data cleaning. Here's the process for achieving that:
+
+```{r}
+Mushroom_Inform1=Mushroom_Inform[Mushroom_Inform$`stalk-root`!="?"]
+
+part = floor(0.80*nrow(Mushroom_Inform1))
+
+train_split = sample(nrow(Mushroom_Inform1),size=part)
+
+train=Mushroom_Inform1[train_split,]
+test=Mushroom_Inform1[-train_split,]
+
+naivebayes_model=naiveBayes(train[,-1],train$Class)
+testing_predict = predict(naivebayes_model,test[,-1])
+training_predict = predict(naivebayes_model,train[,-1])
+
+cat("Accuracy of Training Model: ",mean(training_predict == train$Class)*100,"%")
+
+cat("\n")
+cat(" Accuracy for Testing Model: ",mean(testing_predict == test$Class)*100,"%")
+
+cat("Confusion matrix")
+
+table(testing_predict,test$Class)
+
+```
+
+
+The model made 44 incorrect predictions in which it categorized 47 rows from the edible class as belonging to the poisonous class.
+
+2.3 Problem 3
+
+```{r}
+library(readr)
+library(caret)
+library(data.table)
+
+hydro_Link = "http://archive.ics.uci.edu/ml/machine-learning-databases/00243/yacht_hydrodynamics.data"
+hydro_Information = fread(hydro_Link,header=FALSE)
+hydro_head=c("longitudinalPos","prismaticCoef","LDR","BDR","LBR","froudeNo","Residuary")
+colnames(hydro_Information) = hydro_head
+attach(hydro_Information) 
+
+hydro_split = createDataPartition(y = hydro_Information$Residuary , p = 0.8, list = FALSE)
+train=hydro_Information[hydro_split,]
+test=hydro_Information[-hydro_split,]
+
+lm1 = lm(hydro_Information$Residuary~hydro_Information$longitudinalPos + hydro_Information$prismaticCoef + hydro_Information$LDR + hydro_Information$BDR + hydro_Information$BDR + hydro_Information$LBR +hydro_Information$froudeNo, data = train)
+
+mean_squared_error = function(actual_y, predict_y)
+{
+  return (mean((actual_y - predict_y)^2))
+}
+
+mean_squared_error1 = mean_squared_error(hydro_Information$Residuary, lm1$fitted.values )
+cat("Train MSE: ",mean_squared_error1)
+cat("\n Training RMSE: ", sqrt(mean_squared_error1))
+cat("\n R-squared training: ",summary(lm1)$r.sq)
+
+train_C = trainControl(method = "boot", number = 1000)
+lm2 = train(Residuary~., data = train, method = "lm", trControl = train_C)
+summary(lm2$resample$RMSE)
+summary(lm2$resample$Rsquared)
+
+hist(lm2$resample$RMSE, xlab = "Root Mean Squared Error", main = "Distribution of Root Mean Squared Error",col="cyan", border = "black")
+
+mean_squared_error2 = mean(lm2$resample$RMSE)^2
+cat("Mean squared training with bootstrap: ", mean_squared_error2)
+
+cat("\nRoot Mean squared training with bootstrap: ", mean(lm2$resample$RMSE))
+
+cat("\nmean of r-squared MSE with bootstrap ",mean(lm2$resample$Rsquared))
+
+```
+
+```{r}
+prediction_variables = predict(lm2,test)
+mean_squared_error3 = mean_squared_error(test$Residuary, prediction_variables)
+func1 = function (yActual, yPred)
+{
+  return (sum((yActual - yPred)^2))
+}
+func2 = function (yActual)
+{
+  return (sum((yActual - mean(yActual))^2))
+}
+rss = func1(test$Residuary, prediction_variables)
+tss = func2(test$Residuary)
+
+cat("Bootstrap testing Mean squared error : ", mean_squared_error3)
+
+cat("\nBootstrap testing root Mean squared error: ", sqrt(mean_squared_error3))
+
+cat("\nBootstrap testing root Mean R-squared error: ",1 - (rss/tss))
+
+```
+
+
+The performance of the original and bootstrap models is identical.
+
+2.4 Problem 4
+
+```{r}
+library(readr)
+library(data.table)
+library(caret)
+
+```
+
+```{r}
+german_Data_URL = "https://archive.ics.uci.edu/ml/machine-learning-databases/statlog/german/german.data-numeric"
+german_Data = fread(german_Data_URL,header = FALSE)
+
+summary(german_Data)
+
+german_Data$V25 = factor(german_Data$V25)
+
+```
+
+```{r}
+train_split = createDataPartition(y = german_Data$V25 , p = 0.8, list = FALSE)
+train = german_Data[train_split,]
+test = german_Data[-train_split,]
+
+lm1 = glm(V25~.,family=binomial,data=train)
+
+
+actual_values = train$V25
+predicted_labels = ifelse(lm1$fitted.values > 0.5,2,1)
+predicted_labels = factor(predicted_labels)
+
+confusion_matrix = confusionMatrix(predicted_labels, train$V25)
+confusion_matrix
+
+cat("training model Precision : ", confusion_matrix$byClass[5] * 100, "%")
+cat("\n training model Recall : ", confusion_matrix$byClass[6] * 100, "%")
+cat("\n training model F1-Score : ", confusion_matrix$byClass[7] * 100, "%")
+
+probability = predict(lm1, test, type = "response")
+predicted_labels_test = ifelse(probability > 0.5,2,1)
+predicted_labels_test = factor(predicted_labels_test)
+
+confusion_matrix_test = confusionMatrix(predicted_labels_test, test$V25)
+confusion_matrix_test
+
+cat("testing model Precision: ", confusion_matrix_test$byClass[5] * 100, "%")
+cat("\ntesting model Recall: ", confusion_matrix_test$byClass[6] * 100, "%")
+cat("\ntesting model F1-score: ", confusion_matrix_test$byClass[7] * 100, "%")
+
+train_control = trainControl(method = "cv", number = 10)
+lm2 = train(V25~., data = train, method = "glm", family = "binomial", trControl =train_control)
+cv_predicted_labels = ifelse(lm2$finalModel$fitted.values > 0.5,2,1)
+cv_predicted_labels = factor(cv_predicted_labels)
+
+cv_confusion_matrix = confusionMatrix(cv_predicted_labels, train$V25)
+cv_confusion_matrix
+
+cat("Training Precision 10-fold CV : ", cv_confusion_matrix$byClass[5] * 100, "%")
+cat("\nTraining Recall 10-fold CV : ", cv_confusion_matrix$byClass[6] * 100, "%")
+cat("\nTraining F1-Score 10-fold CV: ", cv_confusion_matrix$byClass[7] * 100, "%")
+
+cv_probabaility = predict(lm2, test, type = "prob")
+cv_test_predicted_labels = ifelse(probability > 0.5,2,1)
+cv_test_predicted_labels = factor(cv_test_predicted_labels)
+
+confusion_matrix_cv_test = confusionMatrix(cv_test_predicted_labels, test$V25)
+confusion_matrix_cv_test
+
+cat("Precision for testing: ", confusion_matrix_cv_test$byClass[5] * 100, "%")
+cat("\nRecall for testing ", confusion_matrix_cv_test$byClass[6] * 100, "%")
+cat("\nF1-Score for testing: ", confusion_matrix_cv_test$byClass[7] * 100, "%")
+
+```
+
+The original and bootstrap models exhibit no discernible distinction in performance.

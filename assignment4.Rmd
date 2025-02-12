@@ -1,0 +1,456 @@
+---
+title: "Assignment 4"
+author: "Aditya Kundeti"
+date: "2023-11-12"
+output:
+  word_document: default
+  html_document: default
+---
+1 Recitation Exercises
+
+1.1 Chapter 8
+
+1. Attached it Separately
+
+3.
+"When considering the variable 'x' with values ranging from 0 to 1, the Gini index is calculated as:"
+
+```{r}
+#consider the value of p:
+a = seq(0, 1, 0.01)
+#Determine the Gini index, entropy, and classification error values through the application of respective formula:
+
+gini_index = a * (1 - a) +  (1 - a) * a
+entropy = -(a * log(a) + (1 - a) * log(1 - a))
+class.error = 1 - pmax(a, 1 - a)
+matplot(a, cbind( gini_index, entropy, class.error ), col = c("yellow", "cyan", "orange"))
+```
+
+8.4: Attached it separately
+
+8.5: 
+Majority Vote Approach: It's noteworthy that in the provided estimates, we observe six values greater than and four values less than 0.5, which serves as the threshold for class assignment. Consequently, employing the majority vote approach leads us to classify the specific value of X into the RED class.
+
+Average Approach: In this methodology, we calculate the average of the aforementioned estimates, resulting in an average value of 0.45, which is below 0.5. Therefore, for a specific value of X that produced the mentioned estimates, utilizing the average approach would lead us to classify it as GREEN.
+
+Chapter 9 - 1.2:
+Questions 1(a) and 1(b)
+```{r}
+
+X1=seq(-2,2,0.1)
+X2<- 1 + 3 * X1
+
+plot(X1, X2, xlab='X1', ylab='X2', type='l', xlim=c(-2, 2), ylim=c(-2, 2), col='blue', lwd=2, main='Plot of X1 and X2')
+for(i in seq(-2,2,length.out = 25)){
+ pts=data.frame(rep(i,25),seq(-2,2,length.out = 25))
+ points(pts,col=ifelse(1+3 * pts[,1]-pts[,2]>0,'purple','brown'))
+}
+
+```
+```{r}
+X1=seq(-2,2,0.1)
+X2<- 1-X1/2
+plot(X1,X2,xlab='X1',ylab='X2',type='l',xlim=c(-2,2),ylim=c(-2,2),col='red', lwd=2, main='Plot of X1 and X2')
+
+for(i in seq(-2,2,length.out = 25)){
+ pts=data.frame(rep(i,25),seq(-2,2,length.out = 25))
+ points(pts,col=ifelse(-2+pts[,1]+pts[,2]*2>0,'green','orange'))
+}
+
+```
+Both of them in one plot:
+```{r}
+X1=seq(-2,2,0.1)
+X2<- 1+3 * X1
+plot(X1, X2, xlab='X1', ylab='X2', type='l', xlim=c(-2,2), ylim=c(-2,2), col='purple', lwd = 2)
+
+lines(X1, 1 - 1/2 * X1, col='purple', lwd = 2)
+
+for (i in seq(-2, 2, length.out = 25)) {
+  pts = data.frame(rep(i, 25), seq(-2, 2, length.out = 25))
+  points(pts, col=ifelse(1 + 3 * pts[, 1] - pts[, 2] > 0, 'orange', 'blue'),
+         pch=ifelse(-2 + pts[, 1] + pts[, 2] * 2 > 0, 1, 2))
+}
+
+```
+
+Chapter - 9: Question 2(a),2(b),2(c):
+
+Note that (1 + X1)^2 + (2 − X2)^2 = 4 is the equation of circle with radius = 2 Solving it further , we get X2 = 2 - sqrt( 4-(1+X1)^2)
+
+```{r}
+X1=seq(-3,10,0.01)
+X2<- 2 - sqrt ( 4-(1+X1)^2)
+X3<- 2 + sqrt ( 4-(1+X1)^2)
+
+plot(X1, X2, xlab='X1', ylab='X2',type='l', xlim=c(-3,3), ylim=c(0,4.5), col='purple', lwd = 2)
+lines(X1, X3, col='purple', lwd = 2)
+for(i in seq(-4,4.5,length.out = 25)){
+ pts=data.frame(rep(i,25),seq(-4,4.5,length.out = 25))
+ points(pts,col=ifelse((1+pts[,1])^2+(2-pts[,2])^2>4,'brown','darkgreen'))
+}
+
+```
+
+The green data points in the depicted image correspond to the instances where the condition (1 + X1)^2 + (2 − X2)^2 < 4 is satisfied. Conversely, the brown data points in the same image correspond to the instances where the condition (1 + X1)^2 + (2 − X2)^2 > 4 is met. Notably, it's important to observe that points such as (0, 0), (2, 2), and (3, 8) fall outside the circular region and are categorized as brown. On the other hand, the point (-1, 1) falls within the circle and is classified as green.
+
+Solution 2 (d):
+
+The decision boundary in the given context corresponds to the equation of a circle, specifically (1 + X1)^2 + (2 − X2)^2 - 4 = 0. Simplifying this expression yields 1 + 2X1 - 4X2 + X1^2 + X2^2 = 0. This equation can be represented in the form a + bT1 + cT2 + dT3 + eT4 = 0, where T1 = X1, T2 = X2, T3 = X1^2, and T4 = X2^2.
+
+From the derived equation, it can be argued that although the decision boundary in (c) is not linear with respect to X1 and X2 individually, it is linear when considering terms such as X1, X1^2, X2, and X2^2.
+
+Chapter - 9:
+Question- 3:
+
+(a) Plot the observations based on the given data:
+```{r}
+X1 = c(3, 2, 4, 1, 2, 4, 4)
+X2 = c(4, 2, 4, 4, 1, 3, 1)
+color = c("brown", "brown", "brown", "brown", "darkgreen", "darkgreen", "darkgreen")
+plot(X1, X2, col = color, xlim = c(0, 5), ylim = c(0, 5))
+```
+
+Optimal hyperplane determination: From the depicted plot, our analysis suggests that the optimal hyperplane, considering the provided observations, should be the one that passes through the midpoint of (2,1) and (2,2), as well as the midpoint of (4,3) and (4,4). In other words, it should pass through the coordinates (2,1.5) and (4,3.5) which will be of the form X2 - X1 + 0.5 = 0
+
+```{r}
+plot(X1, X2, col = color, xlim = c(0, 5), ylim = c(0, 5))
+abline(-0.5, 1, col = 'purple')
+```
+(c) Maximal Margin Classifier:
+
+The equation of the optimal separating hyperplane is given by X2 = X1 - 0.5. Therefore, the classification will be red when X2 > X1 - 0.5 (equivalently, X2 - X1 + 0.5 > 0), and blue otherwise. The coefficients for the hyperplane are represented as (β0, β1, β2) = (0.5, -1, 1).
+
+(d) Margin for Maximum Margin Hyperplane:
+```{r}
+plot(X1, X2, col = colors, xlim = c(0, 5), ylim = c(0, 5))
+abline(-0.5, 1, col = 'red', lwd = 1.5)
+abline(-1, 1, lty = 2, col = 'yellow', lwd = 1.5)
+abline(0, 1, lty = 2, col = 'cyan', lwd = 1.5)
+```
+The margin refers to the distance between the solid line and either of the dashed lines.
+
+(e) Support Vectors:
+
+Observing the graph, it is evident that the support vectors are the points (2,1), (2,2), (4,3), and (4,4). 
+
+(f) Further analysis of the plot reveals that relocating the 7th observation (4,1) would not alter the maximal margin hyperplane since it is not a support vector.
+
+(g) The optimal separating hyperplane is represented by the equation X1 - X2 - 0.5 = 0. For instance, a hyperplane with the equation X1 - X2 - 0.1 = 0 is not the optimal separating hyperplane.
+
+Plotting the same, then:
+
+```{r}
+plot(X1, X2, col = colors, xlim = c(0, 5), ylim = c(0, 5))
+abline(-0.3, 1, col = 'purple')
+```
+
+(h) Drawing additional observation:
+
+```{r}
+plot(X1, X2, col = colors, xlim = c(0, 5), ylim = c(0, 5))
+points(c(2.5), c(1), col = c("brown"))
+```
+It's important to emphasize that introducing a single observation, such as (2.5,1), and classifying it as brown would result in the current maximal hyperplane no longer being the accurate classifier.
+
+
+2 Practicum Problems
+
+2.1 Problem 1
+
+```{r}
+#install.packages : caret, tree, rpart, rpart.plot
+library(caret)
+library(tree)
+library(rpart)
+
+library(rpart.plot)
+#Instead of writing code separately for each step to compute the Gini index and entropy, it would be more convenient to create a function that can be called whenever needed:
+
+gini <- function(a)
+{
+  #As it is binary decision tree,
+gini_index = 2 * a * (1 - a)
+return (gini_index)
+}
+entropy <- function(a)
+{
+entropy_value = (a * log(a) + (1 - a) * log(1 - a))
+return (entropy_value)
+}
+```
+
+
+Given a pair of samples, the parameters for the normal distribution should be specified as (5, 2) and (-5, 2).
+
+```{r}
+set.seed(200)
+
+u<-rnorm(n=200, mean=5, sd=2)
+v<-rnorm(n=200, mean=-5, sd=2)
+df1 <- data.frame(val = u,label=rep("y",200))
+df2 <- data.frame(val = v,label=rep("n",200))
+df <- rbind(df1,df2)
+df$label <- as.factor(df$label)
+decision_tree <- rpart(label~val,df,method="class")
+rpart.plot(decision_tree)
+
+```
+Given the provided information, it's clear that the initial split employs a threshold value of 0.4. The tree consists of a sole root node and two leaf nodes. Moreover, it proficiently segregates and categorizes both classes, showcasing a distinct empirical distribution.
+
+Calculating Gini and Entropy for Each Node:
+p=probability of each node
+
+```{r}
+p=c(0.4, 0, 0.99)
+gini_values=sapply(p, gini)
+
+gini_values
+
+entropy_values=sapply(p, entropy)
+
+entropy_values
+```
+
+The Gini values for the mentioned tree are 0.48, 0.0, and 0.01, while the entropy values are -0.673, NaN, and -0.056.
+
+```{r}
+set.seed(150)
+u1<-rnorm(n=150, mean=1, sd=2)
+v1<-rnorm(n=150, mean=-1, sd=2)
+df3 <- data.frame(val = u1,label=rep("y", 150))
+
+df4 <- data.frame(val = v1,label=rep("n", 150))
+
+df11 <- rbind(df3,df4)
+df11$label <- as.factor(df11$label)
+decision_tree_a <- rpart(label~val,df11,method="class")
+rpart.plot(decision_tree_a)
+```
+The tree described above indicates a threshold value of 0.36 for the initial split. The tree comprises a total of 13 nodes, with one serving as the root node and seven as leaf nodes. The substantial size of the tree suggests the presence of diverse labels within nodes, leading to increased overlap of labels across the tree.
+
+Calculating Gini and Entropy for Each Node: 
+p=probability of each node
+
+```{r}
+p1=c(.5,0.22,0.72,0.28,0.53,0.45,0.09,0.23,0.70,0.37,0.59,1.0,0.81)
+gini_values1=sapply(p1, gini)
+gini_values1
+
+entropy_values1=sapply(p1, entropy)
+entropy_values1
+```
+
+The Gini values for the mentioned tree are 0.5000, 0.3432, 0.4032, 0.4032, 0.4982, 0.4950, 0.1638, 0.3542, 0.4200, 0.4662, 0.4838, 0.0000, and 0.3078.
+
+The corresponding entropy values are -0.6931472, -0.5269080, -0.5929533, -0.5929533, -0.6913461, -0.6881388, -0.3025378, -0.5392763, -0.6108643, -0.6589557, -0.6768585, NaN, and -0.4862230.
+
+PRUNING:
+
+```{r}
+new_tree <- prune.rpart(decision_tree_a,cp=0.1)
+rpart.plot(new_tree)
+
+```
+This pruned tree is an improvement over the previous version, featuring one root node and two leaf nodes. Notably, the reduction in the number of leaf nodes contributes to a more refined structure with fewer instances of label overlap.
+
+Calculating Gini and Entropy for Each Node: 
+p=probability of each node
+
+```{r}
+p2=c(.5,0.22,0.72)
+gini_values2=sapply(p2, gini)
+gini_values2
+
+entropy_values2=sapply(p2, entropy)
+entropy_values2
+```
+
+The gini values for above tree will be 0.5000, 0.3432, 0.4032 The entropy values for above tree will be -0.6931472,-0.5269080, -0.5929533
+
+
+2.2 Problem 2
+
+```{r}
+library(caret)
+library(rpart)
+library(rpart.plot)
+#install.packages("randomForest")
+library(randomForest)
+
+```
+
+
+```{r}
+library(readr)
+winequality_white <- read.csv("C:/Users/adity/Downloads/DPA_assignment4/winequality-white.csv", sep=";")
+
+str(winequality_white)
+
+
+library(readr)
+winequality_red <- read.csv("C:/Users/adity/Downloads/DPA_assignment4/winequality-red.csv", sep=";")
+
+str(winequality_red)
+
+```
+
+The given information reveals that the WHITE WINE dataset includes 4898 samples and 12 variables. Similarly, the RED WINE dataset is composed of 1599 samples and 12 variables, as specified in the output.
+
+Splitting data into Test and Training data:
+
+```{r}
+winequality_white$quality <- as.factor(winequality_white$quality)
+
+inTrain_a <- createDataPartition(winequality_white$quality, p = 0.8, list = F)
+train.white <- winequality_white[inTrain_a,]
+test.white <- winequality_white[-inTrain_a,]
+
+winequality_red$quality <- as.factor(winequality_red$quality)
+
+inTrain_b <- createDataPartition(winequality_red$quality, p = 0.8, list = F)
+train.red <- winequality_red[inTrain_b,]
+test.red <- winequality_red[-inTrain_b,]
+```
+
+Decision Tree:
+
+```{r}
+decisiontree_train_white <- rpart(quality~., data=train.white )
+rpart.plot(decisiontree_train_white)
+
+
+decisiontree_train_red <- rpart(quality~., data=train.red )
+rpart.plot(decisiontree_train_red)
+
+```
+
+
+Confusion Matrix for white and red wine:
+
+```{r}
+decisiontree.predict.white <- predict(decisiontree_train_white, test.white, type = 'class')
+confusionMatrix(decisiontree.predict.white, test.white$quality)
+
+
+decisiontree.predict.red <- predict(decisiontree_train_red, test.red, type = 'class')
+confusionMatrix(decisiontree.predict.red, test.red$quality)
+
+```
+
+The Decision Tree achieved an accuracy of 52.5% (+-2) for the White Wine Dataset and 57.4% (+-2) for the Red Wine Dataset. In the White Wine Dataset, the initial split was determined by the condition "alcohol < 11," whereas in the Red Wine Dataset, it was based on "alcohol < 10." Notably, the Red Wine Dataset incorporated features like Sulphates and Total Sulfur Dioxide, which were absent in the White Wine Dataset. On the other hand, Free Sulfur Dioxide was considered in the White Wine Dataset but not in the Red Wine Dataset.
+
+Random forest Model and its confusion matrix:
+
+```{r}
+rforest_train_white <- train(quality ~ ., data = train.white, method = "rf",preProcess = c("center","scale"))
+rforest_predict_white <- predict(rforest_train_white, test.white)
+
+confusionMatrix(rforest_predict_white, test.white$quality)
+confusionMatrix(rforest_predict_white, test.white$quality)
+
+rforest_train_red <- train(quality ~ ., data = train.red, method = "rf",preProcess = c("center", "scale"))
+
+rforest_predict_red <- predict(rforest_train_red, test.red)
+confusionMatrix(rforest_predict_red, test.red$quality)
+```
+
+Note that the accuracy saw an improvement, reaching 70.55% for white wine and 67.5% for red wine after applying the Random Forest (RF) classifier.
+
+2.3 Problem 3
+
+```{r}
+library(NLP)
+
+library(readxl)
+library(tm)
+
+spam_data =  read.csv("spam.csv", stringsAsFactors=FALSE)
+colnames(spam_data) = c("type", "text")
+spam = data.frame(spam_data)
+spam_data$type = factor(spam_data$type)
+spam_data$text <- iconv(spam_data$text, to = "ASCII",sub = " ")
+spam_data_corpus = VCorpus(VectorSource(spam_data$text))
+spam_data_corpus
+```
+
+Remove the Stop-words:
+
+```{r}
+spam_data_new = tm_map(spam_data_corpus, removeWords,stopwords())
+as.character(spam_data_new[[1]])
+
+```
+
+Strip the Whitespace:
+
+```{r}
+spam_data_new = tm_map(spam_data_new, stripWhitespace)
+as.character(spam_data_new[[1]])
+```
+
+Remove Punctuation:
+
+```{r}
+spam_data_new = tm_map(spam_data_new, removePunctuation)
+as.character(spam_data_new[[1]])
+```
+
+Convert it to Lowercase:
+
+```{r}
+spam_data_new = tm_map(spam_data_new, content_transformer(tolower))
+as.character(spam_data_new[[1]])
+```
+
+Document term matrix:
+
+```{r}
+sms_data_matrix = DocumentTermMatrix(spam_data_new)
+sms_data_matrix
+
+train_data_dtm <- sms_data_matrix[1:4179,]
+test_data_dtm <- sms_data_matrix[4180:5572,]
+
+train_labels <- spam_data[1:4179,]$type
+test_labels <- spam_data[4180:5572,]$type
+
+```
+Find Freq Terms:
+
+```{r}
+freq_terms <- findFreqTerms(train_data_dtm,10)
+```
+
+```{r}
+train_data <- train_data_dtm[,freq_terms]
+test_data <- test_data_dtm[,freq_terms]
+
+```
+
+
+```{r}
+library(e1071)
+count_convert = function(x){
+   x= ifelse(x > 0,"Yes","No")
+}
+
+train_sms_spam = apply(train_data, MARGIN = 2, count_convert)
+test_sms_spam = apply(test_data, MARGIN = 2, count_convert)
+svm = naiveBayes(train_sms_spam, train_labels)
+
+prediction_train <- predict(svm,train_sms_spam)
+prediction_test <- predict(svm,test_sms_spam)
+```
+
+
+```{r}
+library('caret')
+train_accuracy = confusionMatrix(prediction_train, train_labels)
+test_accuracy = confusionMatrix(prediction_test, test_labels)
+cat("Training Accuracy is ",train_accuracy$overall[1],"\n")
+cat("Test Accuracy is ",test_accuracy$overall[1],"\n")
+```
+
+
+

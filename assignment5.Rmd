@@ -1,0 +1,381 @@
+---
+title: "Assignment 5"
+author: "Aditya Kundeti"
+date: "2023-11-29"
+output:
+  html_document: default
+  word_document: default
+---
+
+1	Recitation	Exercises
+1.1	Chapter	12
+
+> It involves $K$-means clustering algorithm.
+>
+> a. Prove (12.18).
+
+12.18 is:
+
+$$
+\frac{1}{|C_k|}\sum_{i,i' \in C_k} \sum_{j=1}^p (x_{ij} - x_{i'j})^2 =
+2 \sum_{i \in C_k} \sum_{j=1}^p  (x_{ij} - \bar{x}_{kj})^2
+$$
+
+where $$\bar{x}_{kj} = \frac{1}{|C_k|}\sum_{i \in C_k} x_{ij}$$
+
+On one side, we calculate the variance by finding the squared difference between each pair of observations (indexed by $i$ and $i'$). On the other side, we determine the variance by squaring the difference between each observation and the mean. Although the intuition behind this identity is evident, proving it involves demonstrating the equivalence between the two computations, with the factor of 2 accounting for the double counting of differences between pairs.
+
+Note that,
+$$\begin{align}
+(x_{ij} - x_{i'j})^2
+  = & ((x_{ij} - \bar{x}_{kj}) - (x_{i'j} - \bar{x}_{kj}))^2 \\
+  = & (x_{ij} - \bar{x}_{kj})^2 -
+      2(x_{ij} - \bar{x}_{kj})(x_{i'j} - \bar{x}_{kj}) +
+      (x_{i'j} - \bar{x}_{kj})^2
+\end{align} $$
+
+The initial term is not influenced by the variable $i'$ , and the final term is not dependent on $i$.
+
+Therefore, 10.12 can be written as:
+
+$$
+\begin{align}
+\frac{1}{|C_k|}\sum_{i,i' \in C_k} \sum_{j=1}^p (x_{ij} - x_{i'j})^2
+= & \frac{1}{|C_k|}\sum_{i,i' \in C_k}\sum_{j=1}^p (x_{ij} - \bar{x}_{kj})^2 -
+    \frac{1}{|C_k|}\sum_{i,i' \in C_k}\sum_{j=1}^p 2(x_{ij} - \bar{x}_{kj})(x_{i'j} - \bar{x}_{kj}) +
+    \frac{1}{|C_k|}\sum_{i,i' \in C_k}\sum_{j=1}^p (x_{i'j} - \bar{x}_{kj})^2 \\
+= & \frac{|C_k|}{|C_k|}\sum_{i \in C_k}\sum_{j=1}^p (x_{ij} - \bar{x}_{kj})^2 -
+    \frac{2}{|C_k|}\sum_{i,i' \in C_k}\sum_{j=1}^p (x_{ij} - \bar{x}_{kj})(x_{i'j} - \bar{x}_{kj}) +
+    \frac{|C_k|}{|C_k|}\sum_{i \in C_k}\sum_{j=1}^p (x_{ij} - \bar{x}_{kj})^2 \\
+= & 2 \sum_{i \in C_k}\sum_{j=1}^p (x_{ij} - \bar{x}_{kj})^2
+\end{align} 
+$$
+
+
+Note that we can drop the term containing
+
+$$(x_{ij} - \bar{x}_{kj})(x_{i'j} - \bar{x}_{kj})$$ 
+since this is 0 when summed over combinations of $i$ and $i'$ for a given $j$.
+
+> b. This identity provides a basis for asserting that, according to Algorithm 12.2, the K-means clustering algorithm decreases the objective function (12.17) in each iteration.
+
+Equation 10.12 illustrates that the Euclidean distance between every pair of samples is connected to the deviation of each sample from the cluster mean. The K-means algorithm operates by minimizing the Euclidean distance to each centroid, consequently minimizing the within-cluster variance.
+
+### Question 2
+
+
+
+a.
+
+```{r}
+m <- matrix(c(0, 0.3, 0.4, 0.7, 0.3, 0, 0.5, 0.8, 0.4, 0.5, 0., 0.45, 0.7, 0.8, 0.45, 0), ncol = 4)
+c1 <- hclust(as.dist(m), method = "complete")
+plot(c1)
+```
+
+b.
+
+```{r}
+c2 <- hclust(as.dist(m), method = "single")
+plot(c2)
+```
+
+
+c. Suppose that we cut the dendrogram obtained in (a) such that two clusters result. Which observations are in each cluster?
+
+```{r}
+table(1:4, cutree(c1, 2))
+```
+
+d.
+
+```{r}
+table(1:4, cutree(c2, 2))
+```
+
+e. 
+
+```{r}
+plot(c1, labels = c(2, 1, 3, 4))
+```
+
+### Question 3
+
+```{r}
+library(ggplot2)
+d <- data.frame(
+  x1 = c(1, 1, 0, 5, 6, 4),
+  x2 = c(4, 3, 4, 1, 2, 0)
+)
+ggplot(d, aes(x = x1, y = x2)) + geom_point()
+```
+
+b.
+
+```{r}
+set.seed(42)
+d$cluster <- sample(c(1, 2), size = nrow(d), replace = TRUE)
+```
+
+c. 
+
+```{r}
+centroids <- sapply(c(1,2), function(i) colMeans(d[d$cluster == i, 1:2]))
+```
+
+d.
+
+```{r}
+dist <- sapply(1:2, function(i) {
+    sqrt((d$x1 - centroids[1, i])^2 + (d$x2 - centroids[2, i])^2)
+})
+d$cluster <- apply(dist, 1, which.min)
+```
+
+e.
+
+```{r}
+centroids <- sapply(c(1,2), function(i) colMeans(d[d$cluster == i, 1:2]))
+dist <- sapply(1:2, function(i) {
+    sqrt((d$x1 - centroids[1, i])^2 + (d$x2 - centroids[2, i])^2)
+})
+d$cluster <- apply(dist, 1, which.min)
+```
+
+In this scenario, the labels become stable after the initial iteration.
+
+f.
+
+```{r}
+ggplot(d, aes(x = x1, y = x2, color = factor(cluster))) +
+  geom_point(size = 3, alpha = 0.7) +  # Adjust point size and transparency
+  scale_color_manual(values = c("blue", "green")) + labs(x = "x1",
+       y = "x2",
+       color = "factor(Cluster)") + theme_minimal() + theme(legend.position = "right")
+```
+
+2 Practicum Problems
+
+2.1 Problem 1
+
+```{r}
+Link <- "https://archive.ics.uci.edu/ml/machine-learning-databases/wine/wine.data"
+Information <- read.table(Link,sep=",")
+colnames(Information) <- c("class", "alcohol", "m_acid", "ash", "alcalinity", "mg", "count_phenols", "flav", "non flav", "roanthocyanins", "intensity_of_color", "hue", "OD280/OD315", "proline")
+
+head(Information)
+```
+```{r}
+summary(Information)
+```
+```{r}
+apply(Information[,-1],2,mean)
+```
+calculating variance
+
+```{r}
+apply(Information[,-1],2,var)
+```
+Upon examining the mean and variance values, it becomes evident that they exist on distinct scales. Consequently, in order to ready our dataset for PCA, we are applying a scaling function to standardize the values.
+
+Performing PCA
+
+```{r}
+result <- prcomp(Information[,-1],scale=TRUE)
+result$rotation
+```
+
+```{r}
+biplot(result,scale=0)
+```
+
+In the depicted figure, the malic_acid feature exhibits an orientation that is opposite to that of the hue feature.
+
+```{r}
+cor(Information$m_acid,Information$hue)
+```
+
+The correlation between the hue and malic acid features suggests that when one variable increases, the other variable decreases to a similar extent.
+
+```{r}
+screeplot(result,col = 'blue')
+summary(result)
+```
+```{r}
+var <- result$sdev^2
+proportion_of_variance <- var/sum(var)
+
+par(mfrow=c(1,2))
+plot(proportion_of_variance , xlab="PCA", ylab="Proportion of Variance ",ylim=c(0,1),type='b',col='red')
+```
+
+```{r}
+plot(cumsum(proportion_of_variance ), xlab="PCA",ylab=" Cummulative proportion of Variance", ylim=c(0,1), type='b' ,col='purple')
+```
+
+```{r}
+ dummy<-proportion_of_variance[1:2]*100
+ dummy
+```
+
+```{r}
+sum(dummy)
+```
+
+Principal Component 1 represents 36.19885% of the variance, and Principal Component 2 represents 19.20749% of the variance. Thus, it is evident that the combined contribution of PC1 and PC2 accounts for a total variance of 55.40%.
+
+
+2.2 Problem 2
+
+```{r}
+library("factoextra")
+library(tidyverse)
+```
+```{r}
+data("USArrests")
+information1<-data.frame(USArrests)
+head(information1,n=5)
+```
+```{r}
+summary(information1)
+```
+```{r}
+str(information1)
+```
+```{r}
+#calculating the mean
+apply(information1,2,mean)
+```
+
+
+```{r}
+ #calculating the variance
+ apply(information1,2,var)
+```
+
+Considering the mean and variance values presented earlier, it is clear that these values are recorded on disparate scales. Hence, it is essential to conduct scaling on the dataset prior to implementing the k-means algorithm.
+
+```{r}
+scale_dataset <- scale(information1, center = TRUE, scale = TRUE)
+
+output <- function(k)
+{ kmeans(scale_dataset,centers=k,nstart=20)$tot.withinss }
+k <- 2:10
+
+ with_in_cluster_SS <- map_dbl(k, output)
+ with_in_cluster_SS
+```
+
+```{r}
+#finding the optimal value of k
+plot(k, with_in_cluster_SS, type="b", pch=25, frame = FALSE, xlab="K", ylab="sum of squares",col="orange")
+```
+```{r}
+fviz_nbclust(scale_dataset, kmeans, method = 'wss') +geom_vline(xintercept = 4, linetype=5, col= "orange")
+```
+
+```{r}
+final <- kmeans(scale_dataset, centers = 4, nstart = 20)
+fviz_cluster(final, data = scale_dataset)
+```
+
+2.3 Problem 3
+
+```{r}
+library(dplyr)
+library(readr)
+
+# Provide the correct file path to read.csv
+file_path <- "C:/Users/adity/Downloads/DPA_assignment4/winequality-white.csv"
+information2 <- read.csv(file_path, sep=";")
+head(information2)
+
+```
+```{r}
+final2 <- information2[,-12]
+```
+
+```{r}
+apply(final2,2,mean)
+```
+
+```{r}
+apply(final2,2,var)
+```
+Considering the mean and variance values presented earlier, it is clear that the measurements are in distinct scales. Thus, it is essential to conduct scaling on the dataset before applying hierarchical clustering (hclust).
+
+
+```{r}
+scale_model2 <- scale(final2,center = TRUE,scale=TRUE)
+complete <- hclust(dist(scale_model2),method="complete")
+plot(complete,ylab="Height",col="blue",main="Dendrogram for the complete cluster")
+```
+```{r}
+single_linkage <- hclust(dist(scale_model2),method="single")
+plot(single_linkage ,ylab="Height",col="blue",main="Dendrogram for the single linkage cluster")
+```
+```{r}
+tail(complete$height,1)
+
+```
+
+```{r}
+tail(single_linkage$height,1)
+```
+
+```{r}
+complete_cut<-cutree(complete,h=27.73476)
+table(complete_cut)
+```
+
+
+```{r}
+plot(complete, ylab="Height", col="blue", main="Dendrogram for the cut tree method")
+rect.hclust(complete, h=27.73476, border=2:6)
+abline(h=27.73476, col='green')
+
+```
+```{r}
+calculating_cut_for_single <- cutree(single_linkage,h=14.25323)
+table(calculating_cut_for_single)
+```
+
+```{r}
+plot(single_linkage,ylab="Height",col="red",main="Dendrogram for the cut tree method of single linkage") 
+rect.hclust(complete ,h=14.25323, border = 2:6)
+abline(h =14.25323, col = 'green')
+```
+```{r}
+final2$Clusters <- complete_cut
+unique(final2$Clusters)
+```
+
+```{r}
+final2 <- dplyr::group_by(final2, Clusters)
+answer <- final2 %>%
+  dplyr::summarise(across(everything(), list(mean = mean)))
+```
+```{r}
+print.data.frame(answer)
+```
+```{r}
+abs(answer[2,-1]-answer[1,-1])
+```
+```{r}
+final2$Clusters <- calculating_cut_for_single
+unique(final2$Clusters)
+```
+
+```{r}
+final2 <- dplyr::group_by(final2, Clusters)
+answer2 <- final2 %>%
+  dplyr::summarise(across(everything(), list(mean = mean)))
+```
+```{r}
+print.data.frame(answer2)
+```
+```{r}
+abs(answer2[2,-1]-answer2[1,-1])
+```
+
+The findings indicate that the feature residual sugar shows the most significant disparity in means. Additionally, upon examining the plots for Complete and Single linkage, it can be inferred that the Complete linkage method produces clusters with a more balanced distribution.

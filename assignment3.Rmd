@@ -1,0 +1,473 @@
+---
+title: "DPA Assignment 3"
+author: "Aditya Kundeti"
+date: "2023-10-10"
+output:
+  word_document: default
+  html_document: default
+  pdf_document: default
+---
+
+1.1 Chapter 6
+
+#1 
+(a) 
+The best subset selection method aims to minimize the training Residual Sum of Squares (RSS) by exhaustively exploring all possible combinations of predictors to create models. As the number of predictors (p) grows, there's an increased likelihood of finding a model that fits the data exceptionally well.
+
+(b) Determining the model with the lowest test RSS is challenging since the models mentioned prioritize minimizing training RSS, especially when comparing models of the same size. Subsequently, techniques like cross-validation error, Cp, AIC, BIC, etc., are employed to select the final model from a set of k+1 models. It's crucial to recognize that the initial selection focuses on minimizing training error, and this doesn't necessarily ensure the lowest test error.
+
+(c) 
+(i) The statement is accurate. In forward stepwise selection, the (k+1) model involves adding one more predictor to the set of predictors already present in the k-variable model.
+
+
+(ii) 
+True. Backward stepwise selection involves obtaining a k-variable model by removing one predictor from the (k+1) variable model.
+
+(iii) 
+False. The predictors will differ because each method employs distinct criteria for selecting them.
+
+(iv) 
+False. Forward stepwise selection and backward stepwise selection will have different predictor sets because they employ distinct criteria for predictor selection.
+
+(v) False. It doesn't assure the consistent use of the same predictors for both k-variable and (k+1) variable models. This is because it explores all potential solutions and opts for the best one, which might entail different sets of predictors.
+
+#2 
+(a) (iii) As the lambda value increases in Lasso, certain predictor coefficients are exactly zero, leading to reduced model flexibility. This introduces a trade-off between bias and variance. While there is a slight uptick in model bias, there is a substantial decrease in variance.
+
+(b) (iii) Option is accurate.
+The same concept applied in Lasso is relevant to Ridge regression. The Ridge penalty diminishes the model's flexibility, effectively reducing variance. However, Ridge regression comes with a drawback — it utilizes all predictors, and while the coefficients decrease, they don't reach exactly zero, distinguishing it from Lasso where some coefficients are precisely reduced to zero.
+
+(c) (ii) Option is accurate.
+We acknowledge that non-linear models offer greater flexibility and typically show higher variance along with lower bias. When examining the estimated Mean Squared Error (MSE) formula, encompassing squared bias, variance, and irreducible error, we can infer that a non-linear model's predictive accuracy improves when the reduction in bias outweighs the rise in variance.
+
+#3 
+(a) The correct choice among the options is (iii). As the parameter "s" increases, constraints on beta coefficients become less strict, eventually reaching zero and converging to values obtained through least squares estimation.
+
+(b) The accurate option among the choices is (ii). Initially, the test Residual Sum of Squares (RSS) decreases as the model becomes more adaptable, but then it begins to rise due to concerns about overfitting.
+
+(c) From the provided options, (iii) is the correct choice. With an increase in model flexibility, the variance steadily increases.
+
+(d) The correct option among the provided choices is (iv). When the model becomes less flexible, the bias steadily decreases.
+
+(e) Among the given choices, (v) is accurate. Irreducible error remains independent of s.
+
+#4  
+(a) Option (iii) is the correct choice among the given options. As lambda increases, the constraints on the beta coefficients gradually loosen until they reach zero, aligning with their least squares estimation values.
+
+(b) Option (ii) is the correct choice among the provided options. The test Residual Sum of Squares (RSS) will initially decrease as the model's flexibility diminishes and then start to increase as overfitting becomes a concern.
+
+(c) Option (iv) is the correct one among the provided choices. When the model's flexibility decreases, the variance consistently decreases as well.
+
+(d) Option (iii) is the correct choice among the given options. When the model becomes less flexible, the bias steadily increases.
+
+(e) Option (v) is the correct choice among the provided options. Changes in lambda do not influence the irreducible error.
+
+#5  
+Documented in the paper (another pdf) and provided as a separate attachment.
+
+
+1.2 Chapter 7
+
+#2
+```{r}
+library(ggplot2)
+set.seed(3)
+
+variable_1 <- runif(50)
+
+sin_v=sin(12*(variable_1 + 0.2)) / (variable_1 + 0.2)
+
+epsilon<-rnorm(50)
+variable_2 <-sin_v + epsilon
+```
+```{r}
+
+output_function <- function(variable_1) {sin(12*(variable_1 + 0.2)) / (variable_1 + 0.2)}
+```
+
+```{r}
+dataframe <- data.frame(variable_1, variable_2)
+```
+
+a) λ=∞,m=0
+
+```{r}
+ggplot(dataframe, aes(x = variable_1, y = variable_2)) +geom_point(alpha = 0.5)+ geom_hline(aes(yintercept = 0, linetype = "g(X)=sin(12(X+0.2))/X+0.2"), 
+size = 0.6,, col = "red") + stat_function(fun = output_function, aes(col = "Generating Function")) + scale_color_manual(values = "yellow") + theme(legend.position = "top", legend.justification='left',legend.direction='horizontal', legend.title=element_blank())
+
+```
+
+
+As the limit approaches infinity (λ→∞), the function g(x) tends to zero. Consequently, gˆ equals zero.
+
+(b) λ=∞,m=1.
+
+```{r}
+ggplot(dataframe, aes(x = variable_1, y = variable_2)) +
+  geom_point(alpha = 0.7, color = "blue") +
+  geom_hline(aes(yintercept = mean(variable_2), linetype = "g(X)=sin(12(X+0.2))/X+0.2"), size = 1, col = "green") +
+  stat_function(fun = output_function, aes(col = "Generating Function"), size = 1.5) +
+  scale_color_manual(values = "orange") +
+  theme_minimal() +
+  theme(legend.position = "bottom", legend.title = element_blank(), 
+        axis.text = element_text(color = "red", size = 10),
+        axis.title = element_text(face = "bold", size = 12))
+```
+
+As the value of λ gets larger and larger, the derivative of g with respect to x (g′(x)) will approach zero. As a result, the estimated value of g (ĝ) will be a constant (c).
+
+(c) λ=∞,m=2.
+
+```{r}
+ggplot(dataframe, aes(x = variable_1, y = variable_2)) +
+  geom_point(alpha = 0.7, color = "green") +
+  geom_smooth(method = "lm", se = FALSE, size = 1.2, formula = "y ~ x", aes(color = "g(X)=sin(12(X+0.2))/X+0.2")) +
+  stat_function(fun = output_function, aes(color = "Generating Function"), size = 1.5) +
+  scale_color_manual(values = c("purple", "orange")) +
+  theme_minimal() +
+  theme(legend.position = "bottom", legend.title = element_blank(),
+        axis.text = element_text(color = "blue", size = 10),
+        axis.title = element_text(face = "bold", size = 12))
+```
+
+As λ approaches infinity, the second derivative of g with respect to x (g′′(x)) tends to zero, leading to ĝ = ax + b.
+
+(d) λ=∞,m=3.
+
+```{r}
+ggplot(dataframe, aes(x = variable_1, y = variable_2)) +
+  geom_point(alpha = 0.6, color = "blue") +
+  geom_smooth(method = "lm", se = FALSE, size = 1.0, formula = "y ~ x + I(x^2)", aes(color = "g(X)=sin(12(X+0.2))/X+0.2")) +
+  stat_function(fun = output_function, aes(color = "Generating Function"), size = 1.2) +
+  scale_color_manual(values = c("red", "purple")) +
+  theme_bw() +
+  theme(legend.position = "bottom", legend.title = element_blank(),
+        axis.text = element_text(color = "green", size = 10),
+        axis.title = element_text(face = "bold", size = 12))
+
+```
+
+As λ approaches infinity, the third derivative of g with respect to x (g′′′(x)) tends to zero, resulting in ĝ = ax² + bx + c.
+
+(e) λ=0,m=3.
+
+```{r}
+# Creating the 'intermediate' object
+intermediate <- smooth.spline(x = dataframe$variable_1, y = dataframe$variable_2, all.knots = TRUE, lambda = 0.0000000000001)
+
+# Generating fitted values
+fitted <- predict(intermediate, x = seq(min(variable_1) - 0.02, max(variable_1) +
+0.02, by = 0.0001))
+fitted <- data.frame(x = fitted$x, fitted_y = fitted$y)
+
+# Plotting
+ggplot(dataframe, aes(x = variable_1, y = variable_2)) +
+  geom_point(alpha = 0.7, color = "blue") +
+  stat_function(fun = output_function, aes(col = "Generating Function")) +
+  geom_line(data = fitted, aes(x = x, y = fitted_y, col = "Chosen_g(X)"), size = 1.2) +
+  scale_color_manual(values = c("purple", "orange")) +
+  theme_minimal() +
+  theme(legend.position = "bottom", legend.title = element_blank(),
+        axis.text = element_text(color = "purple", size = 10),
+        axis.title = element_text(face = "bold", size = 12))
+
+```
+
+When λ is zero, the penalty term has no impact on the estimated function ĝ(x), leading to an RSS (Residual Sum of Squares) of zero.
+
+
+#3 
+```{r}
+variable_1 = seq(-2, 2, 0.01)
+variable_2 =1 +variable_1+ -2*(variable_1 - 1)^2*(variable_1 >= 1) 
+
+variable<-data.frame(variable_1, variable_2)
+
+ggplot(variable, aes(x = variable_1, y = variable_2)) + 
+  geom_vline(xintercept = 1, col = "blue") + 
+  geom_vline(xintercept = 0, col = "red") + 
+  geom_hline(yintercept = 0, col = "red") + 
+  geom_line(size = 2, col = "purple")
+
+```
+
+The curve follows a linear pattern from -2 to 1 with the equation y = 1 + x and becomes quadratic between 1 and 2 with the equation y = 1 + x - 2(x - 1)^2.
+
+#4 
+```{r}
+variable_1 = seq(-2, 2, 0.01)
+
+variable_2= 1 + (variable_1 >= 0 & variable_1 <= 2) - (variable_1 - 1)*(variable_1 >= 1 & variable_1<= 2) + 3*(variable_1- 3)*(variable_1 >= 3 & variable_1 <= 4) + 3*(variable_1 > 4 & variable_1 <= 5)
+
+variable <- data.frame(variable_1, variable_2)
+
+ggplot(variable, aes(x = variable_1, y = variable_2)) + geom_hline(yintercept = 0) + geom_vline(xintercept = 0) + geom_line(size = 1.2)
+```
+
+The curve remains constant at y = 2 between 2 and 0, transitions to y = 3x from 0 to 1, and becomes y = 1 between 1 and 2.
+
+#5  
+   (a) The penalty term application makes smoothing spline g2 a higher-order polynomial, likely resulting in a lower training Residual Sum of Squares (RSS).
+   
+   (b) Test RSS is influenced by variability in the test data. G2 is expected to have higher test RSS due to its increased adaptability, potentially leading to overfitting in describing test RSS based on the curve's shape.
+   
+   (c) When λ is zero, g1 and g2 are identical, sharing the same training and testing Residual Sum of Squares (RSS).
+
+
+2 Practicum Problems
+
+2.1 Problem 1
+
+```{r}
+library(ggplot2)
+library(caret)
+## Loading required packages: lattice , foreach, RoCR and Matrix
+library(glmnet)
+
+```
+
+```{r}
+## Loaded glmnet 4.1-6
+library(lattice) 
+library(foreach) 
+library(Matrix) 
+library(ROCR)
+mtcars_v<-data.frame(mtcars)
+mtcars_v
+```
+```{r}
+
+str(mtcars_v)
+```
+```{r}
+set.seed(120)
+
+split<-createDataPartition(mtcars_v$am,times=1,p=0.8,list = FALSE) 
+
+trainingData<-mtcars_v[split,] 
+
+testingData<-mtcars_v[-split,]
+
+# creating a linear model and calculating the mean
+Linear_m<-lm(mpg~.,data=trainingData)
+
+a=(predict(Linear_m,testingData)-testingData$mpg)^2 
+mean(a)
+
+## [1]
+coef(Linear_m)
+```
+```{r}
+summary(Linear_m)
+```
+
+The "wt" feature stands out as particularly relevant among all available features based on the data.
+
+
+#calculating the ridge regression
+
+```{r}
+library(glmnet)
+library(Matrix)
+
+independent_variable <- model.matrix(mpg~.,trainingData)[,-1] 
+dependent_variable <- trainingData$mpg
+sequence_l <- 10^seq(5,-5,by = -.1)
+```
+
+
+```{r}
+crossvalidation_using_ridge <- cv.glmnet(independent_variable, dependent_variable, alpha = 0,lambda=sequence_l)
+
+plot(crossvalidation_using_ridge)
+```
+
+
+```{r}
+best_L <- crossvalidation_using_ridge$lambda.min
+cat("Best Lambda value:",best_L)
+
+Model_fitting <- glmnet(independent_variable, dependent_variable, alpha = 0,lambda=best_L) 
+summary(Model_fitting)
+```
+```{r}
+coef(crossvalidation_using_ridge,s="lambda.min")
+```
+
+```{r}
+final=model.matrix(mpg~.,testingData)[,-1]
+
+finalPrediction <- predict(Model_fitting,s =,newx = final, type = "response")
+cat("Final output of ridge regression model: ",mean((finalPrediction-testingData$mpg)^2))
+
+```
+
+We observe that MSE got decreased from 25.26 to 4.63 after ridge regression is performed. They are closer to zero but not equal to zero. Hence, ridge regression performed shrinkage and the optimal value of lambda is 1.25.
+
+
+2.2 Problem 2
+
+```{r}
+variable_2<-data.frame(swiss)
+set.seed(151) 
+split<-createDataPartition(variable_2$Fertility,p=0.8,list = FALSE) 
+trainingData<-variable_2[split,]
+
+testingData<-variable_2[-split,] 
+Linear_m<-lm(Fertility~.,trainingData)
+
+summary(Linear_m)
+
+```
+Agriculture, Examination, Catholic, and Infant Mortality are significant features, each associated with coefficients: -0.18551, -0.19641, 0.09240, and 1.19936, respectively.
+
+```{r}
+a=mean((testingData$Fertility-predict(Linear_m,testingData,type="response"))^2) 
+cat("Calculating the MSE for testing the data ",a)
+
+```
+
+Lasso Regression
+
+```{r}
+independent_variable<-model.matrix(Fertility~.,trainingData)[,-1]
+dependent_variable<-trainingData$Fertility
+
+sequence_l <- 10^seq(5,-5,by = -.1)
+
+crossvalidation_using_lasso <- cv.glmnet(independent_variable, dependent_variable, alpha = 1,lambda=sequence_l)
+plot(crossvalidation_using_lasso)
+```
+
+```{r}
+best_L <- crossvalidation_using_lasso$lambda.min
+cat("Best Lambda value:",best_L)
+```
+
+```{r}
+Model_fitting <- glmnet(independent_variable, dependent_variable, alpha = 1,lambda=best_L) 
+
+summary(Model_fitting)
+```
+
+```{r}
+final2=model.matrix(Fertility~.,testingData)[,-1]
+finalPrediction <- predict(Model_fitting,s =,newx = final2, type = "response")
+
+result= mean((finalPrediction - testingData$Fertility)^2) 
+cat("Final output of the Lasso regression model: ",result)
+```
+
+```{r}
+coef(Linear_m)
+```
+
+```{r}
+coef(crossvalidation_using_lasso)
+```
+
+Lasso regression effectively shrunk two variables to zero, demonstrating increased efficacy compared to linear fit with lasso regularization. The Mean Squared Error (MSE) decreased from 52.79 to 55.49 after lasso regression. Some coefficients are close to zero, and one is precisely zero, indicating successful shrinkage. The optimal lambda value for lasso regression is found to be 0.125.
+
+2.3 Problem 3
+
+```{r}
+library(corrplot)
+library(mgcv)
+library(visreg)
+library(readxl) 
+variable_3<-read_excel("C:/Users/adity/Desktop/concrete compressive strength/Concrete_Data.xls") 
+summary(variable_3)
+```
+
+```{r}
+colnames(variable_3)= c("ceme", "Blast_FS", "Fly_A", "H2O", "S_P", "C_A", "Fine_A", "Age", "ccs")
+col_c1_c6 = c("ceme", "Blast_FS", "Fly_A", "H2O", "S_P", "C_A", "ccs")
+variable_3 = variable_3[col_c1_c6]
+summary(variable_3)
+```
+
+```{r}
+corrplot(cor(variable_3), method = "number")
+```
+
+```{r}
+M1 <- gam(ccs ~ ceme + Blast_FS + Fly_A + H2O + S_P + C_A , data=variable_3)
+summary(M1)
+```
+
+Cement and blast furnace slag exhibit statistical effects, whereas there is no significant impact on Concrete Compressive Strength.
+
+```{r}
+M2 <- gam(ccs ~ s(ceme) + s(Blast_FS) + s(Fly_A) + s(H2O) + s(S_P) + s(C_A) ,data=variable_3)
+
+summary(M1)
+```
+
+The adjusted R-square is 0.445, suggesting an association between cement and CCS.
+
+```{r}
+M1.sse <- sum(fitted(M1)-variable_3$ccs)^2
+M1.ssr <- sum(fitted(M1) -mean(variable_3$ccs))^2 
+
+M1.sst = M1.sse+M1.ssr 
+rootsquare=1-(M1.sse/M1.sst)
+cat("Root Mean Square is",rootsquare)
+```
+
+```{r}
+anova(M1, M2, test="Chisq")
+```
+
+```{r}
+#Using the Visreg Library
+library(visreg)
+visreg(M1,'ceme')
+```
+
+```{r}
+visreg(M2,'ceme')
+```
+
+The blue line represents the anticipated value, while the gray area depicts the confidence interval for that expected value.
+
+```{r}
+visreg(M1,'Blast_FS')
+```
+
+```{r}
+visreg(M2,'Blast_FS')
+```
+
+```{r}
+visreg(M1,'Fly_A')
+```
+
+```{r}
+visreg(M2,'Fly_A')
+```
+```{r}
+visreg(M1,'H2O')
+```
+
+```{r}
+visreg(M2,'H2O')
+```
+
+```{r}
+visreg(M1,'S_P')
+```
+```{r}
+visreg(M2,'S_P')
+```
+
+```{r}
+visreg(M1,'C_A')
+
+```
+
+```{r}
+visreg(M2,'C_A')
+```
+
+
+Post-smoothing, we notice an increased confidence interval compared to the pre-model state, indicating an enhancement in confidence intervals after the application of the smoothing function.

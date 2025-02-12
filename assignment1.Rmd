@@ -1,0 +1,365 @@
+---
+title: "Assignment 1"
+author: "Aditya Kundeti"
+date: "2023-09-08"
+output:
+  word_document: default
+  pdf_document: default
+  html_document: default
+---
+
+1. For each of parts (a) through (d), indicate whether we would generally expect the performance of a fexible statistical learning method to be better or worse than an infexible method. Justify your answer.
+
+(a) The sample size n is extremely large, and the number of predictors p is small.
+
+Better performance can be achieved with a flexible statistical learning method, especially when working with large samples, as it allows for effective model training, resulting in significantly improved performance.
+
+(b) The number of predictors p is extremely large, and the number of observations n is small. 
+
+
+The performance of a flexible statistical learning method tends to deteriorate when working with smaller samples, as it struggles to effectively train the model, leading to overfitting issues that negatively impact overall performance.
+
+(c) The relationship between the predictors and response is highly non-linear.
+
+Enhanced performance can be achieved when employing a flexible method with a higher degree of freedom. Inflexible methods may lead to model underfitting, resulting in suboptimal outcomes.
+
+(d) The variance of the error terms, i.e. σ2 = Var("), is extremely high.
+
+Poor performance can be attributed to the potential for overfitting when there is a substantial amount of noise in the data, stemming from a significant variance in the error terms.
+
+2. Explain whether each scenario is a classification or regression problem, and indicate whether we are most interested in inference or prediction. Finally, provide n and p.
+ (a) We collect a set of data on the top 500 firms in the US. For each firm we record profit, number of employees, industry and the CEO salary. We are interested in understanding which factors affect CEO salary.
+
+This constitutes a regression task, centered on quantitative data analysis. Our main focus is on inference, aiming to discern the factors influencing CEO salaries rather than creating salary predictions. The dataset comprises 500 observations, with three key variables: profit, the number of employees, and industry.
+
+(b) We are considering launching a new product and wish to know whether it will be a success or a failure. We collect data on 20 similar products that were previously launched. For each product we have recorded whether it was a success or failure, price charged for the product, marketing budget, competition price, and ten other variables.
+
+This is a classification task, as the outcome is binary, categorized as either success or failure. It falls into the prediction domain because our objective is to forecast this binary outcome.
+The dataset consists of 20 observations, and it includes variables such as price charged, marketing budget, competition price, success or failure, along with ten additional variables.
+
+ (c) We are interested in predicting the % change in the USD/Euro exchange rate in relation to the weekly changes in the world stock markets. Hence we collect weekly data for all of 2012. For each week we record the % change in the USD/Euro, the % change in the US market, the % change in the British market, and the % change in the German market.
+ 
+ 
+This problem can be classified as a regression task since it involves numerical data, and our primary goal is prediction. We aim to forecast future percentage changes in the USD/EURO exchange rate based on weekly fluctuations in global stock markets. The dataset comprises 52 observations and includes variables such as the percentage change in the US market, the percentage change in the UK market, and the percentage change in the German market.
+
+4. You will now think of some real-life applications for statistical learning. 
+(a) Describe three real-life applications in which classification might be useful. Describe the response, as well as the predictors. Is the goal of each application inference or prediction? Explain your answer.
+
+Certainly, here are three real-world scenarios where classification can be valuable, along with details about the response variable (the outcome) and predictor variables (the inputs), and an explanation of whether the objective is inference or prediction:
+
+1. Email Spam Identification:
+   - Outcome: Binary classification - Categorizing emails as either "Spam" or "Not Spam."
+   - Predictors: Features from email content like keywords, sender details, email format, and others.
+   - Objective: The primary aim is prediction. It involves forecasting whether an incoming email is spam or legitimate, enabling email systems to automatically filter unwanted messages. Although some insights into specific features may be drawn, the primary focus is on making accurate real-time predictions.
+
+2. Medical Tumor Diagnosis - Classification:
+   - Outcome: Binary classification - Labeling tumors as "Benign" or "Malignant."
+   - Predictors: Medical imaging data (e.g., MRI or X-ray scans) and patient characteristics (e.g., age, gender).
+   - Objective: In this context, both inference and prediction are important. While the primary goal is prediction (identifying tumor malignancy), understanding which features contribute most to this classification (inference) can assist medical professionals in diagnosis and treatment choices.
+
+3. Credit Card Fraud Detection:
+   - Outcome: Binary classification - Detecting "Fraudulent" or "Legitimate" transactions.
+   - Predictors: Transaction information, including amount, location, time, and customer history.
+   - Objective: The main objective is prediction. The system seeks to predict whether a credit card transaction is fraudulent in real-time or not. While some insights can be gained about common patterns linked to fraud (e.g., unusual purchase locations or large transactions), the primary focus is on preventing fraudulent transactions.
+   
+(b) Describe three real-life applications in which regression might be useful. Describe the response, as well as the predictors. Is the goal of each application inference or prediction? Explain your answer.
+
+Certainly, here are three real-world scenarios where classification can be valuable, along with details about the response variable (the outcome) and predictor variables (the inputs), and an explanation of whether the objective is inference or prediction:
+
+Email Spam Identification:
+
+Outcome: Binary classification - Categorizing emails as either "Spam" or "Not Spam."
+Predictors: Features from email content like keywords, sender details, email format, and others.
+Objective: The primary aim is prediction. It involves forecasting whether an incoming email is spam or legitimate, enabling email systems to automatically filter unwanted messages. Although some insights into specific features may be drawn, the primary focus is on making accurate real-time predictions.
+Medical Tumor Diagnosis - Classification:
+
+Outcome: Binary classification - Labeling tumors as "Benign" or "Malignant."
+Predictors: Medical imaging data (e.g., MRI or X-ray scans) and patient characteristics (e.g., age, gender).
+Objective: In this context, both inference and prediction are important. While the primary goal is prediction (identifying tumor malignancy), understanding which features contribute most to this classification (inference) can assist medical professionals in diagnosis and treatment choices.
+Credit Card Fraud Detection:
+
+Outcome: Binary classification - Detecting "Fraudulent" or "Legitimate" transactions.
+Predictors: Transaction information, including amount, location, time, and customer history.
+Objective: The main objective is prediction. The system seeks to predict whether a credit card transaction is fraudulent in real-time or not. While some insights can be gained about common patterns linked to fraud (e.g., unusual purchase locations or large transactions), the primary focus is on preventing fraudulent transactions.
+In summary, while classification tasks frequently involve making predictions, the importance of inference varies based on the application. In some cases, comprehending the factors contributing to a specific classification is critical (inference), while in others, the primary goal is simply to make accurate predictions in real-time (prediction).
+
+(b) Describe three real-life applications in which regression might be useful. Describe the response, as well as the predictors. Is the goal of each application inference or prediction? Explain your answer.
+
+Certainly, here are three real-world scenarios where regression analysis can be beneficial. We'll provide details about the outcome variable (the result we're interested in predicting) and predictor variables (the factors influencing the outcome), along with an explanation of whether the goal is to draw insights or make predictions:
+
+Property Price Estimation in Real Estate:
+
+Outcome: Continuous numerical variable - Estimating the price of a property.
+Predictors: Property characteristics such as square footage, number of bedrooms, location, neighborhood safety, and economic indicators.
+Objective: The primary aim is prediction. It involves predicting the market value of a property based on its attributes and other relevant factors. While some understanding of how features impact property prices may be gained (inference), the main focus is on making accurate price predictions.
+Stock Market Price Prediction:
+
+Outcome: Continuous numerical variable - Forecasting future stock prices.
+Predictors: Historical stock prices, trading volumes, economic indicators, and sentiment analysis of news.
+Objective: In this context, the primary objective is prediction. The goal is to predict future stock prices, enabling investors to make informed decisions. While regression models can provide insights into which factors are associated with stock price movements (inference), the primary emphasis is on predicting future prices.
+Crop Yield Projection:
+
+Outcome: Continuous numerical variable - Predicting the yield of a specific crop in agriculture.
+Predictors: Environmental factors like weather conditions, soil quality, irrigation methods, and agricultural practices.
+Objective: The primary goal is prediction. Regression models are utilized to forecast crop yields based on various factors. Although some insights into how environmental conditions affect crop yield can be gleaned (inference), the primary aim is to deliver accurate yield predictions to farmers, aiding in optimal farming decisions.
+In summary, regression analysis is often applied to prediction tasks in these real-world scenarios. While there's room for drawing insights into the relationships between predictor variables and the outcome variable, the primary focus lies in utilizing regression models to make precise forecasts.
+
+(c) Describe three real-life applications in which cluster analysis might be useful.
+
+Certainly, here's a bit more elaboration on each of the three real-life applications of cluster analysis:
+
+Customer Segmentation in Marketing: Cluster analysis is used to categorize customers into distinct groups with similar characteristics. This segmentation allows companies to tailor their marketing efforts to each group's preferences and needs. For example, a retail company might identify clusters of high-spending, young, urban customers who prefer online shopping, and then design specific marketing campaigns to target this segment, improving the chances of success.
+
+Image Compression in Computer Vision: In computer vision and image processing, cluster analysis can be employed to compress images by grouping similar pixels together. This compression technique reduces the amount of data needed to represent an image without significantly compromising its quality. This is particularly valuable in applications where large amounts of image data need to be stored or transmitted efficiently, like video streaming or satellite imagery.
+
+Anomaly Detection in Network Security: Cluster analysis is utilized in network security to establish patterns of normal network behavior. By clustering network traffic based on various parameters, deviations from these established clusters can be detected as anomalies. For example, if a cluster typically represents typical employee network usage and suddenly there is a network activity that doesn't fit this pattern, it might indicate a security breach or an internal threat. Cluster-based anomaly detection is essential for swiftly identifying and responding to cybersecurity threats and potential vulnerabilities in network systems.
+
+6. Describe the differences between a parametric and a non-parametric statistical learning approach. What are the advantages of a parametric approach to regression or classification (as opposed to a nonparametric approach)? What are its disadvantages?
+
+Differences between parametric and non-parametric statistical learning approaches, along with their respective advantages and disadvantages:
+
+Parametric Approach:
+
+Model Assumption: Parametric methods assume a specific functional form or shape for the underlying data distribution. For instance, linear regression assumes a linear relationship between predictors and the target variable.
+
+Fixed Model Complexity: These models have a predefined number of parameters that remain constant regardless of the dataset's size. For example, in linear regression, the number of coefficients depends on the number of predictor variables.
+
+Advantages:
+Efficiency: Parametric models are often computationally efficient because they have a fixed structure. They work well with large datasets and are suitable for real-time applications.
+
+Interpretability: The explicit assumptions in parametric models provide interpretable coefficients, making it easier to understand the relationships between variables.
+Generalization: With enough data and correctly specified assumptions, parametric models can generalize well and make accurate predictions.
+
+Disadvantages:
+Model Assumption Sensitivity: If the underlying assumptions are incorrect or the data does not conform to the assumed distribution, parametric models may produce biased or inaccurate results.
+
+Limited Flexibility: The fixed model structure may not capture complex or nonlinear relationships in the data effectively. This can lead to underfitting when the true relationship is more intricate.
+
+Data Distribution Dependency: Parametric models depend on specific distributional assumptions that may not hold in real-world scenarios.
+Non-Parametric Approach:
+
+Model Assumption: Non-parametric methods make fewer or no assumptions about the data distribution. They allow the data itself to determine the model's complexity.
+
+Variable Model Complexity: Non-parametric models can adapt their complexity based on the data, making them capable of capturing complex and nonlinear relationships.
+
+Advantages:
+Flexibility: Non-parametric models excel in handling complex and nonlinear relationships without imposing specific forms on the data distribution.
+
+Robustness: They are less sensitive to model assumptions, making them suitable for diverse data types and scenarios where distributional assumptions are uncertain.
+
+Scalability: Non-parametric models can be scaled to accommodate large datasets, making them versatile for various applications.
+
+Disadvantages:
+Computational Complexity: Non-parametric methods can be computationally intensive, especially when dealing with large datasets or high-dimensional spaces.
+
+Interpretability: They may lack the interpretability of parametric models because their complexity often arises from data-driven patterns, making it challenging to explain why specific predictions are made.
+
+Data Requirements: Non-parametric models may require larger datasets to generalize effectively, especially in high-dimensional spaces.
+
+7. The table below provides a training data set containing six observations, three predictors, and one qualitative response variable.
+Suppose we wish to use this data set to make a prediction for Y when X1 = X2 = X3 = 0 using K-nearest neighbors. 
+(a) Compute the Euclidean distance between each observation and the test point, X1 = X2 = X3 = 0.
+
+Euclidean distance is the distance between two points and it can be calculated by:
+
+\[ \text{Euclidean Distance} = \sqrt{(x2 - x1)^2 + (y2 - y1)^2 + (z2 - z1)^2} \]
+
+Obs.	X1	  X2	  X3	   Y	   Euclidian distance
+1	    0	    3	    0	    Red	    3
+2	    2	    0	    0	    Red	    2
+3	    0	    1	    3	    Red	    3.162
+4	    0	    1	    2	    Green	  2.236
+5	    -1	  0	    1	    Green 	1.414
+6	    1	    1	    1	    Red   	1.732
+
+(b) What is our prediction with K = 1? Why?
+
+When K is set to 1, the nearest neighbor is the 5th observation, which has the corresponding output labeled as "green".
+
+(c) What is our prediction with K = 3? Why? 
+
+When K is equal to 3, the closest neighbors are observations 2, 5, and 6. Observation 2 corresponds to the output "Red," observation 5 corresponds to "Green," and observation 6 corresponds to "Red." Since there are more "Red" observations among the three nearest neighbors, the overall output will be "Red."
+
+(d) If the Bayes decision boundary in this problem is highly nonlinear, then would we expect the best value for K to be large or small? Why?
+
+We favor smaller values of K because they lead to non-linear boundaries, while larger K values result in linear relationships. When K increases, it incorporates more points, leading to the generation of linear relationships. Therefore, we prefer smaller values for K.
+
+1.2 Chapter 3
+1. Describe the null hypotheses to which the p-values given in Table 3.4 correspond. Explain what conclusions you can draw based on these p-values. Your explanation should be phrased in terms of sales, TV, radio, and newspaper, rather than in terms of the coefficients of the linear model.
+
+Null Hypothesis (H0): The null hypothesis states that there is no association between sales and advertising through TV, radio, or print media.
+
+Alternate Hypothesis (H1): The alternative hypothesis suggests that there is a relationship between sales and advertising budgets.
+
+The null hypotheses for TV and Radio can be rejected because their p-values are significant. This indicates a strong likelihood that investments in radio and television advertising positively influence sales. However, the null hypothesis for Newspaper is accepted because the p-value is not significant. This suggests that while investments in TV and radio advertising may impact sales, spending on newspaper advertising does not lead to a significant increase in sales.
+
+3. Suppose we have a data set with five predictors, X1 = GPA, X2 = IQ, X3 = Level (1 for College and 0 for High School), X4 = Interaction between GPA and IQ, and X5 = Interaction between GPA and Level. The response is starting salary after graduation (in thousands of dollars). Suppose we use least squares to fit the model, and get βˆ0 = 50, βˆ1 = 20, βˆ2 = 0.07, βˆ3 = 35, βˆ4 = 0.01, βˆ5 = −10. 
+(a) Which answer is correct, and why?
+ i. For a fixed value of IQ and GPA, high school graduates earn more, on average, than college graduates.
+ 
+ii. For a fixed value of IQ and GPA, college graduates earn more, on average, than high school graduates. 
+
+iii. For a fixed value of IQ and GPA, high school graduates earn more, on average, than college graduates provided that the GPA is high enough. 
+
+iv. For a fixed value of IQ and GPA, college graduates earn more, on average, than high school graduates provided that the GPA is high enough.
+
+The least squares equation for predicting salary is expressed as follows:
+Salary = βˆ0 + βˆ1(GPA) + βˆ2(IQ) + βˆ3(Level) + βˆ4(GPA)(IQ) + βˆ5(GPA)(Level)
+
+This equation can be rewritten as:
+Salary = 50 + 20(GPA) + 0.07(IQ) + 35(Level) + 0.01(GPA)(IQ) - 10(GPA)(Level)
+
+In this equation, various coefficients (β-hats) are used to estimate salary based on factors such as GPA, IQ, and level.
+
+
+When considering College X with a Level value of 1:
+
+The equation to predict Y (possibly salary) is given as Y = 85 + 10(GPA) + 0.07(IQ) + 0.01(GPA * IQ).
+For School X with a Level value of 0:
+
+The equation to predict Y becomes Y = 50 + 20(GPA) + 0.07(IQ) + 0.01(GPA * IQ).
+In these equations, different coefficients and terms are applied based on the level of education (College or School) represented by X3.
+
+When both IQ and GPA are held constant, college graduates tend to earn higher incomes than high school graduates when GPA is low. However, when GPA is high, high school graduates tend to earn more than college graduates. This phenomenon occurs because IQ is a shared factor in both equations. Consequently, for a fixed set of IQ and GPA values, high school graduates typically outearn college graduates, especially when GPA is sufficiently high. Therefore, statement 3 is accurate.
+
+(b) Predict the salary of a college graduate with IQ of 110 and a GPA of 4.0. 
+
+The least squares equation for salary prediction is represented as follows:
+Salary = βˆ0 + βˆ1(GPA) + βˆ2(IQ) + βˆ3(Level) + βˆ4(GPA)(IQ) + βˆ5(GPA)(Level)
+
+This equation can be expressed as:
+Salary = 50 + 20(GPA) + 0.07(IQ) + 35(Level) + 0.01(GPA)(IQ) - 10(GPA)(Level)
+
+In this equation, various coefficients (β-hats) are utilized to estimate salary based on factors such as GPA, IQ, and level of education.
+
+When considering College (X3 = 1) as the level of education:
+
+The equation to predict Y (possibly salary) is given as Y = 85 + 10(GPA) + 0.07(IQ) + 0.01(GPA * IQ).
+When specific values are provided, IQ = 110 and GPA = 4.0:
+
+The equation can be simplified to Y = 85 + 10(4.0) + 0.07(110) + 0.01 * 4.0 * 110.
+Calculating this yields Y = 85 + 40 + 7.7 + 4.4, resulting in Y = 137.1K.
+This demonstrates how to compute the value of Y (possibly salary) for a given set of IQ and GPA values when the level of education is College (X3 = 1).
+
+(c) True or false: Since the coefficient for the GPA/IQ interaction term is very small, there is very little evidence of an interaction effect. Justify your answer.
+
+Its FALSE. A small GPA/IQ interaction does not necessarily indicate a lack of evidence for an interaction effect. To assess the presence of an interaction, it's crucial to examine the p-value associated with the regression coefficient for the interaction term.
+
+4. I collect a set of data (n = 100 observations) containing a single predictor and a quantitative response. I then fit a linear regression model to the data, as well as a separate cubic regression, i.e. Y = β0 + β1X + β2X2 + β3X3 + ϵ. 
+(a) Suppose that the true relationship between X and Y is linear, i.e. Y = β0 + β1X + ϵ. Consider the training residual sum of squares (RSS) for the linear regression, and also the training RSS for the cubic regression. Would we expect one to be lower than the other, would we expect them to be the same, or is there not enough information to tell? Justify your answer. 
+
+I believe that the Residual Sum of Squares (RSS) for cubic regression should be lower than that for linear regression. This is because cubic regression, with its four parameters compared to linear regression's two, has a greater capacity to closely fit the data. Consequently, the RSS would be minimized in cubic regression.
+
+(b) Answer (a) using test rather than training RSS.
+
+
+In cases where the relationship between X and Y is linear, we would typically observe that the Residual Sum of Squares (RSS) for cubic regression is expected to be greater compared to linear regression. This is because cubic regression has the potential to overfit the data, whereas linear regression provides a better fit to the data.
+
+ (c) Suppose that the true relationship between X and Y is not linear, but we don’t know how far it is from linear. Consider the training RSS for the linear regression, and also the training RSS for the cubic regression. Would we expect one to be lower than the other, would we expect them to be the same, or is there not enough information to tell? Justify your answer.
+
+If the relationship between X and Y is nonlinear, we would anticipate that the training Residual Sum of Squares (RSS) for cubic regression will be lower in comparison to linear regression. This is due to the greater flexibility of cubic regression when fitting non-linear data patterns.
+
+ (d) Answer (c) using test rather than training RSS.
+ 
+ There's no guarantee that one type of regression will consistently result in a lower RSS. If the relationship between variables is nonlinear, cubic regression tends to have a lower RSS because it can better accommodate the complexity of the data. However, in cases where the relationship is nearly linear, linear regression may yield a lower RSS.
+ 
+```{r}
+library(ggplot2)
+question1=data.frame(iris)
+head(question1)
+boxplot(question1,xlab="attributes",ylab="values",main="Iris Data",col="red")
+attach(question1)
+cat("SepalLength IQR: ",IQR(Sepal.Length))
+cat("SepalLength IQR: ",IQR(Sepal.Width))
+cat("SepalLength IQR: ",IQR(Petal.Width))
+cat("SepalLength IQR: ",IQR(Petal.Length))
+```
+We can observe from the above plot that the Petal Length is having the highest Inter Quartile Range(IQR) of 3.5 which can be found by calculating empirical IQR.
+```{r}
+cat("SepalLength standard deviation: ",sd(Sepal.Length))
+cat("SepalWidth standard deviation: ",sd(Sepal.Width))
+cat("PetalWidth standard deviation: ",sd(Petal.Width))
+cat("PetalLength standard deviation: ",sd(Petal.Length))
+```
+The parametric result agrees with the observed result. Petal.length has the highest IQR.
+```{r}
+ggplot(question1,aes(Species,Sepal.Length,fill=Species))+geom_boxplot()+ggtitle("Sepal Length")
+ggplot(question1,aes(Species,Sepal.Width,fill=Species))+geom_boxplot()+ggtitle("Sepal Width")
+ggplot(question1,aes(Species,Petal.Width,fill=Species))+geom_boxplot()+ggtitle("Petal Width")
+ggplot(question1,aes(Species,Petal.Length,fill=Species))+geom_boxplot()+ggtitle("Petal Length")
+```
+When class setosa is divided from the other classes, it displays noticeably different Petal Length/Width characteristics.
+
+Question 2:
+
+```{r}
+question2 = data.frame(trees)
+head(question2)
+summary(question2$Girth)
+summary(question2$Volume)
+summary(question2$Height)
+```
+
+HISTOGRAM:
+```{r}
+hist(question2$Girth, xlab = "Girth", ylab = "Count", main = "GIRTH", col = "Red")
+hist(question2$Volume, xlab = "Volume", ylab = "Count", main = "VOLUME", col = "Green")
+hist(question2$Height, xlab = "Height", ylab = "Count", main = "Height", col = "Blue")
+
+library(moments)
+cat("Girth skewness:", skewness(question2$Girth))
+cat("Volume skewness:", skewness(question2$Volume))
+cat("Height skewness:", skewness(question2$Height))
+```
+The volume and girth variables have positive skewness, however the height variable has a negative skewness that is close to zero. Height has characteristics when skewness is measured that are comparable to those of visual representation since it has a regular distribution.
+
+Question 3:
+
+
+
+```{r}
+web <- "https://archive.ics.uci.edu/ml/machine-learning-databases/auto-mpg/auto-mpg.data"
+question3<- read.table(web, stringsAsFactors = FALSE)
+colnames(question3)<- c("mpg", "cylinders", "displacement", "horsepower", "weight", "acceleration", "model_year", "origin", "car_name")
+head(question3)
+str(question3)
+question3$horsepower<-as.numeric(question3$horsepower)
+is.numeric(question3$horsepower)
+cat("Mean before the replacement: ", mean(question3$horsepower, na.rm = TRUE))
+summary(question3$horsepower)
+question3_median = median(question3$horsepower, na.rm = TRUE)
+
+question3$horsepower[is.na(question3$horsepower)] = question3_median
+cat("Mean after the replacement: ", mean(question3$horsepower, na.rm = TRUE))
+summary(question3$horsepower)
+```
+We notice that the mean has dropped from 104.4694 to 104.304 after the median has been used to replace in the missing numbers.
+
+Question 4:
+
+```{r}
+library(MASS)
+question4<- data.frame(Boston)
+lm.fit<- lm(medv~lstat, data = question4)
+summary(lm.fit)
+
+plot(question4$lstat, question4$medv, xlab = "lstat", ylab = "medv", pch = 16, col = "yellow")
+abline(lm.fit, lwd="2")
+par(mfrow = c(2,2))
+plot(lm.fit, col = "green")
+```
+The relationship between predictor and response is non-linear.
+```{r}
+predict(lm.fit, data.frame(lstat = c(5,10,15)), interval = "prediction")
+predict(lm.fit, data.frame(lstat = c(5,10,15)), interval = "confidence")
+```
+Since confidence and prediction values are different, there is no such thing as non-linearity.
+
+```{r}
+lm.fit2<- lm(question4$medv~question4$lstat + I(question4$lstat^2))
+par(mfrow = c(2,2))
+plot(lm.fit2, col = "green")
+
+summary(lm.fit2)
+```
+
